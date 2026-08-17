@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jack Chen | Product / UX Designer & Product Owner</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            dark: '#0a0d16',
+                            card: 'rgba(15, 23, 42, 0.75)',
+                            accent: '#38bdf8',
+                            purple: '#818cf8',
+                            pink: '#c084fc',
+                            neon: '#22d3ee'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans TC', 'sans-serif'],
+                        tech: ['Orbitron', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'glow-cyan': '0 0 25px -5px rgba(34, 211, 238, 0.3)',
+                        'glow-purple': '0 0 25px -5px rgba(129, 140, 248, 0.3)',
+                        'glow-pink': '0 0 25px -5px rgba(192, 132, 252, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #07090e;
+            color: #f1f5f9;
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-panel-interactive {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-panel-interactive:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px rgba(56, 189, 248, 0.25);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-text-cyan {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .grid-bg {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+
+        /* Floating animation for hero UI elements */
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+        }
+        @keyframes float-medium {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-18px) rotate(-1.5deg); }
+        }
+        @keyframes float-reverse {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(14px) rotate(-2deg); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .animate-float-1 { animation: float-slow 7s ease-in-out infinite; }
+        .animate-float-2 { animation: float-medium 9s ease-in-out infinite; }
+        .animate-float-3 { animation: float-reverse 8s ease-in-out infinite; }
+        .animate-pulse-glow { animation: pulse-glow 4s ease-in-out infinite; }
+
+        /* Audio Equalizer Animation */
+        @keyframes eq-bar {
+            0%, 100% { height: 4px; }
+            50% { height: 16px; }
+        }
+        .animate-eq-1 { animation: eq-bar 0.8s ease-in-out infinite; }
+        .animate-eq-2 { animation: eq-bar 1.1s ease-in-out infinite 0.2s; }
+        .animate-eq-3 { animation: eq-bar 0.9s ease-in-out infinite 0.4s; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #07090e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38bdf8;
+        }
+
+        /* Light Mode Overrides */
+        body {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        html:not(.dark) body {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        html:not(.dark) .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+        }
+        html:not(.dark) .glass-panel-interactive:hover {
+            border-color: rgba(56, 189, 248, 0.6);
+            box-shadow: 0 12px 30px -10px rgba(56, 189, 248, 0.2);
+        }
+        html:not(.dark) .text-white {
+            color: #0f172a !important;
+        }
+        html:not(.dark) .text-slate-300, html:not(.dark) .text-slate-400 {
+            color: #475569 !important;
+        }
+        html:not(.dark) .text-slate-200 {
+            color: #334155 !important;
+        }
+        html:not(.dark) .bg-slate-950, html:not(.dark) .bg-slate-950\/80, html:not(.dark) .bg-slate-950\/90 {
+            background-color: rgba(241, 245, 249, 0.95) !important;
+        }
+        html:not(.dark) .bg-slate-900, html:not(.dark) .bg-slate-900\/90 {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+        }
+        html:not(.dark) .border-white\/10, html:not(.dark) .border-white\/5, html:not(.dark) .border-white\/15 {
+            border-color: rgba(0, 0, 0, 0.08) !important;
+        }
+        html:not(.dark) .grid-bg {
+            background-image: 
+                linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-cyan-500 selection:text-black">
+
+    <!-- Sticky Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass-panel border-b border-white/10" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+            
+            <!-- Logo & Brand -->
+            <a href="#hero" class="flex items-center gap-3 group">
+                <div class="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-500 to-pink-500 p-0.5 shadow-glow-cyan transition-transform group-hover:scale-105">
+                    <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center text-cyan-400 font-extrabold font-tech text-base tracking-wider">JC</div>
+                </div>
+                <div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="font-bold text-base sm:text-lg tracking-tight text-white group-hover:text-cyan-400 transition-colors">Jack Chen</span>
+                    </div>
+                    <p class="text-[10px] text-slate-400 hidden sm:block tracking-wider uppercase">Product / UX Designer</p>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Menu -->
+            <nav class="hidden md:flex items-center space-x-1 lg:space-x-2 text-xs lg:text-sm font-medium text-slate-300">
+                <a href="#about" class="px-3 py-2 rounded-lg hover:text-cyan-400 hover:bg-white/5 transition-all" data-lang-en="About" data-lang-zh="關於我">About</a>
+                <a href="#methodology" class="px-3 py-2 rounded-lg hover:text-cyan-400 hover:bg-white/5 transition-all" data-lang-en="Discovery Process" data-lang-zh="探索與流程">Discovery Process</a>
+                <a href="#projects" class="px-3 py-2 rounded-lg hover:text-cyan-400 hover:bg-white/5 transition-all" data-lang-en="Featured Projects" data-lang-zh="精選專案">Featured Projects</a>
+                <a href="#angleasy" class="px-3 py-2 rounded-lg hover:text-cyan-400 hover:bg-white/5 transition-all" data-lang-en="Angleasy 0→1" data-lang-zh="Angleasy 0→1">Angleasy 0→1</a>
+                <a href="#ai-certifications" class="px-3 py-2 rounded-lg hover:text-cyan-400 hover:bg-white/5 transition-all" data-lang-en="AI & Certs" data-lang-zh="AI 應用與認證">AI & Certs</a>
+                <a href="#roles" class="px-3 py-2 rounded-lg hover:text-cyan-400 hover:bg-white/5 transition-all" data-lang-en="Target Roles" data-lang-zh="職涯方向">Target Roles</a>
+            </nav>
+
+            <!-- Actions, Theme Switcher & Language Switcher -->
+            <div class="flex items-center gap-3">
+
+                <!-- Dark / Light Mode Toggle Button -->
+                <button id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode" class="w-10 h-10 rounded-xl glass-panel hover:bg-white/10 text-cyan-400 flex items-center justify-center border border-cyan-500/30 transition-all shadow-sm hover:border-cyan-400 hover:scale-105 active:scale-95">
+                    <i class="fa-solid fa-moon text-base" id="themeIcon"></i>
+                </button>
+
+                <!-- Icon-Only Language Selector Dropdown -->
+                <div class="relative">
+                    <button id="langToggleBtn" onclick="toggleLangDropdown(event)" title="Select Language / 切換語系" class="w-10 h-10 rounded-xl glass-panel hover:bg-white/10 text-cyan-400 flex items-center justify-center border border-cyan-500/30 transition-all shadow-sm hover:border-cyan-400 hover:scale-105 active:scale-95">
+                        <i class="fa-solid fa-globe text-base"></i>
+                    </button>
+
+                    <!-- Language Dropdown Menu -->
+                    <div id="langDropdown" class="hidden absolute right-0 mt-2 w-36 rounded-2xl glass-panel border border-cyan-500/40 shadow-2xl overflow-hidden z-50 py-1.5 backdrop-blur-xl">
+                        <button onclick="selectLanguage('en')" class="w-full px-4 py-2 text-left text-xs font-semibold text-slate-200 hover:bg-cyan-500/20 hover:text-cyan-300 flex items-center justify-between transition-colors">
+                            <span>English (EN)</span>
+                            <i id="checkEn" class="fa-solid fa-check text-cyan-400 text-xs"></i>
+                        </button>
+                        <button onclick="selectLanguage('zh')" class="w-full px-4 py-2 text-left text-xs font-semibold text-slate-200 hover:bg-cyan-500/20 hover:text-cyan-300 flex items-center justify-between transition-colors">
+                            <span>繁體中文</span>
+                            <i id="checkZh" class="fa-solid fa-check text-cyan-400 text-xs hidden"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Contact CTA -->
+                <a href="#contact" class="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-xl text-xs font-bold text-slate-950 bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-400 hover:brightness-110 transition-all shadow-glow-cyan" data-lang-en="Get in Touch" data-lang-zh="聯繫 Jack">
+                    Get in Touch
+                </a>
+
+                <!-- Mobile Hamburger Button -->
+                <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-300 hover:bg-white/10 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl" id="menuIcon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobileMenu" class="hidden md:hidden glass-panel border-t border-white/10 px-4 pt-3 pb-6 space-y-2">
+            <a href="#about" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10" data-lang-en="About" data-lang-zh="關於我">About</a>
+            <a href="#methodology" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10" data-lang-en="Discovery Process" data-lang-zh="探索與流程">Discovery Process</a>
+            <a href="#projects" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10" data-lang-en="Featured Projects" data-lang-zh="精選專案">Featured Projects</a>
+            <a href="#angleasy" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10" data-lang-en="Angleasy (0→1 Health-Tech)" data-lang-zh="Angleasy 0→1 健康科技">Angleasy (0→1 Health-Tech)</a>
+            <a href="#ai-certifications" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10" data-lang-en="AI & Certifications" data-lang-zh="AI 應用與認證">AI & Certifications</a>
+            <a href="#roles" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-white/10" data-lang-en="Target Roles" data-lang-zh="職涯方向">Target Roles</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block px-3 py-2 text-center font-bold text-slate-950 bg-cyan-400 rounded-xl" data-lang-en="Get in Touch" data-lang-zh="聯繫 Jack">Get in Touch</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative min-h-screen pt-28 pb-16 flex items-center justify-center overflow-hidden grid-bg">
+        <!-- Interactive Background Canvas -->
+        <canvas id="heroCanvas" class="absolute inset-0 pointer-events-none opacity-40"></canvas>
+
+        <!-- Glow Orbs -->
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none animate-pulse-glow" style="animation-delay: 2s;"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Left Column Text -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+
+                    <!-- Main Hero Title -->
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight">
+                        <span data-lang-en="Jack Chen" data-lang-zh="陳泰運 Jack Chen">Jack Chen</span> <br>
+                        <span class="gradient-text">Product / UX Designer</span>
+                    </h1>
+
+                    <!-- Hero Subtitle Badges -->
+                    <p class="text-base sm:text-xl text-slate-300 font-medium max-w-2xl mx-auto lg:mx-0">
+                        <span class="text-cyan-400">Product Discovery</span> | <span class="text-indigo-300">Complex Systems</span> | <span class="text-pink-400">0→1 Products</span>
+                    </p>
+
+                    <!-- Short Intro Paragraph -->
+                    <p class="text-sm sm:text-base text-slate-400 leading-relaxed max-w-2xl mx-auto lg:mx-0"
+                       data-lang-en="I turn fragmented information and complex user scenarios into clear, actionable product directions. Specializing in hardware-software integrated systems, AI PCs, robotics, drone GCS, and health-tech."
+                       data-lang-zh="擅長在需求尚未明確時，透過使用者研究、工作坊與 prototype 整理出可討論、可測試、可開發的產品方向。精通軟硬體整合系統、AI PC、服務型機器人、無人機地面控制站與健康科技。">
+                        I turn fragmented information and complex user scenarios into clear, actionable product directions. Specializing in hardware-software integrated systems, AI PCs, robotics, drone GCS, and health-tech.
+                    </p>
+
+                    <!-- Hero Action Buttons -->
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#projects" class="px-7 py-3.5 rounded-xl font-bold text-sm text-slate-950 bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-400 hover:brightness-110 transition-all shadow-glow-cyan flex items-center gap-2.5">
+                            <i class="fa-solid fa-layer-group text-slate-950 text-base"></i>
+                            <span data-lang-en="Featured Projects" data-lang-zh="精選專案">Featured Projects</span>
+                        </a>
+                    </div>
+
+                    <!-- Quick Metrics Counter Row -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8 border-t border-white/10 text-center lg:text-left">
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-cyan-400 font-tech">8+</div>
+                            <div class="text-xs text-slate-400 font-medium" data-lang-en="Years UX Experience" data-lang-zh="年 UX/產品經驗">Years UX Experience</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-indigo-400 font-tech">5</div>
+                            <div class="text-xs text-slate-400 font-medium" data-lang-en="Patent Jurisdictions" data-lang-zh="國/地區發明專利">Patent Jurisdictions</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-pink-400 font-tech">10+</div>
+                            <div class="text-xs text-slate-400 font-medium" data-lang-en="Partner Orgs Validated" data-lang-zh="合作機構場域驗證">Partner Orgs Validated</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-cyan-300 font-tech">12</div>
+                            <div class="text-xs text-slate-400 font-medium" data-lang-en="Exhibitions Showcased" data-lang-zh="大型展覽展示推廣">Exhibitions Showcased</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right Column Graphic Design (Replicating and expanding on the visual style in screenshot) -->
+                <div class="lg:col-span-5 relative flex justify-center">
+                    <!-- Glass Interactive Canvas Display Frame -->
+                    <div class="relative w-full max-w-md aspect-square rounded-3xl p-6 glass-panel border border-cyan-500/20 shadow-glow-purple flex flex-col justify-between overflow-hidden">
+                        
+                        <!-- Top Floating Bar inside Card -->
+                        <div class="flex items-center justify-between pb-3 border-b border-white/10 z-20">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+                                <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+                            </div>
+                            <span class="text-[11px] font-tech text-cyan-400 tracking-wider">JACK_UX_DISCOVERY_SYS.v8</span>
+                        </div>
+
+                        <!-- Central Visual Element with Portrait Frame & Dynamic Floating Tag Badges -->
+                        <div class="relative my-auto py-6 flex flex-col items-center justify-center">
+                            
+                            <!-- Floating Tag 1: Top-Left -->
+                            <div class="absolute -top-1 -left-2 sm:-left-6 z-30 animate-float-1">
+                                <div class="px-3 py-1.5 rounded-xl glass-panel border border-cyan-400/40 shadow-glow-cyan flex items-center gap-1.5 text-[11px] font-semibold text-cyan-300 backdrop-blur-md">
+                                    <i class="fa-solid fa-compass text-cyan-400"></i>
+                                    <span data-lang-en="Product Discovery" data-lang-zh="需求與產品探索">Product Discovery</span>
+                                </div>
+                            </div>
+
+                            <!-- Floating Tag 2: Top-Right -->
+                            <div class="absolute top-1 -right-2 sm:-right-6 z-30 animate-float-2">
+                                <div class="px-3 py-1.5 rounded-xl glass-panel border border-indigo-400/40 shadow-glow-purple flex items-center gap-1.5 text-[11px] font-semibold text-indigo-300 backdrop-blur-md">
+                                    <i class="fa-solid fa-diagram-project text-indigo-400"></i>
+                                    <span data-lang-en="Complex Systems" data-lang-zh="複雜系統 UX">Complex Systems</span>
+                                </div>
+                            </div>
+
+                            <!-- Floating Tag 3: Bottom-Left -->
+                            <div class="absolute bottom-1 -left-4 sm:-left-8 z-30 animate-float-3">
+                                <div class="px-3 py-1.5 rounded-xl glass-panel border border-pink-400/40 shadow-glow-pink flex items-center gap-1.5 text-[11px] font-semibold text-pink-300 backdrop-blur-md">
+                                    <i class="fa-solid fa-heart-pulse text-pink-400"></i>
+                                    <span data-lang-en="0→1 Health-Tech" data-lang-zh="0→1 健康科技">0→1 Health-Tech</span>
+                                </div>
+                            </div>
+
+                            <!-- Floating Tag 4: Bottom-Right -->
+                            <div class="absolute -bottom-2 -right-2 sm:-right-6 z-30 animate-float-1">
+                                <div class="px-3 py-1.5 rounded-xl glass-panel border border-emerald-400/40 shadow-glow-cyan flex items-center gap-1.5 text-[11px] font-semibold text-emerald-300 backdrop-blur-md">
+                                    <i class="fa-solid fa-award text-emerald-400"></i>
+                                    <span data-lang-en="5 Global Patents" data-lang-zh="5 國/地區發明專利">5 Global Patents</span>
+                                </div>
+                            </div>
+
+                            <!-- Floating Tag 5: Middle Right Badge -->
+                            <div class="absolute top-1/2 -translate-y-1/2 -right-6 sm:-right-8 z-30 animate-float-2 hidden sm:block">
+                                <div class="px-2.5 py-1 rounded-lg glass-panel border border-cyan-500/30 text-[10px] font-mono text-cyan-300 flex items-center gap-1">
+                                    <i class="fa-solid fa-microchip text-cyan-400"></i>
+                                    <span data-lang-en="AI PC & Robotics" data-lang-zh="AI PC & 機器人">AI PC & Robotics</span>
+                                </div>
+                            </div>
+
+                            <!-- Hero Portrait Central Display Frame -->
+                            <div class="relative group my-2">
+                                <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-indigo-500 to-pink-500 rounded-3xl blur opacity-70 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse-glow"></div>
+                                <div class="relative w-44 h-44 sm:w-52 sm:h-52 rounded-2xl overflow-hidden border-2 border-cyan-400/50 shadow-2xl">
+                                    <img src="https://r2.uploads.tw/2026/08/XuODsaR3mw.webp" alt="Jack Chen Portrait" class="w-full h-full object-cover object-center transform transition duration-500 hover:scale-105">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                                    <div class="absolute bottom-2 left-3 right-3 flex items-center justify-between text-[10px] text-cyan-300 font-mono">
+                                        <span data-lang-en="JACK CHEN" data-lang-zh="陳泰運 JACK CHEN">JACK CHEN</span>
+                                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 relative bg-slate-950/80 border-t border-b border-white/5">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full glass-panel border border-cyan-500/30 mb-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                    <span class="text-xs font-semibold text-slate-200" data-lang-en="Jack Chen | Executive Summary" data-lang-zh="陳泰運 (Jack Chen) | 個人簡介概覽">Jack Chen | Executive Summary</span>
+                </div>
+                <h2 class="text-xs uppercase tracking-widest text-cyan-400 font-tech font-bold" data-lang-en="// EXECUTIVE SUMMARY" data-lang-zh="// 個人簡介概覽">// EXECUTIVE SUMMARY</h2>
+                <h3 class="text-3xl sm:text-4xl font-extrabold text-white" data-lang-en="Bridging Product Discovery & Complex Systems" data-lang-zh="連接產品探索與複雜系統設計">Bridging Product Discovery & Complex Systems</h3>
+                <div class="w-16 h-1 bg-gradient-to-r from-cyan-400 to-indigo-500 mx-auto rounded-full"></div>
+            </div>
+
+            <!-- Single Container with Language-Specific Content Display -->
+            <div class="max-w-4xl mx-auto">
+                
+                <!-- English Content (EN mode only) -->
+                <div class="lang-en-only glass-panel p-8 sm:p-10 rounded-3xl border border-cyan-500/30 space-y-5 relative overflow-hidden shadow-2xl">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400 font-bold text-xs">EN</div>
+                            <h4 class="font-bold text-lg text-white">About Jack Chen</h4>
+                        </div>
+                        <i class="fa-solid fa-quote-right text-slate-700 text-2xl"></i>
+                    </div>
+
+                    <div class="space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+                        <p>
+                            I'm a Product / UX Designer with <strong>8+ years of experience</strong> in B2B, B2B2C, complex systems, and hardware-software integrated products. My work spans AI PCs and new-form-factor laptops, service robots, drone ground control systems, enterprise websites, and a 0→1 health-tech product.
+                        </p>
+                        <p>
+                            I'm most effective when the problem is still unclear. I use user research, market and competitor analysis, workshops, task flows, information architecture, wireframes, prototypes, GUI design, and field validation to turn fragmented information into product directions that teams can discuss, test, and build.
+                        </p>
+                        <p>
+                            One of the most meaningful projects in my career was <strong>Angleasy</strong>, a wearable health-tech product I proposed at an internal hackathon that grew into a four-year, formal cross-functional project. I contributed to product definition, market and competitor research, regulatory exploration, and App/Web UX, and drove validation with 10+ partner organizations across 12 exhibitions. The product's two core inventions were granted patents in Taiwan, the EU, Japan, the US, and China.
+                        </p>
+                        <p>
+                            I also apply generative AI to research synthesis, concept exploration, visual content, and rapid prototyping. I hold the Taiwan iPAS AI Application Planner certification and the III Generative AI Competency Certification, and I continue improving my AI knowledge and tool proficiency.
+                        </p>
+                        <p>
+                            My current focus remains Product / UX Design, especially complex systems, B2B products, multi-device experiences, AI products, IoT, and industrial platforms. I am also open to Digital Product Manager or Product Owner opportunities where I can bring research, product discovery, system thinking, and cross-functional collaboration closer to product planning and decision-making.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Traditional Chinese Content (ZH mode only) -->
+                <div class="lang-zh-only hidden glass-panel p-8 sm:p-10 rounded-3xl border border-indigo-500/30 space-y-5 relative overflow-hidden shadow-2xl">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold text-xs">中文</div>
+                            <h4 class="font-bold text-lg text-white">關於 陳泰運 (Jack Chen)</h4>
+                        </div>
+                        <i class="fa-solid fa-quote-right text-slate-700 text-2xl"></i>
+                    </div>
+
+                    <div class="space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed font-sans">
+                        <p>
+                            我是<strong>陳泰運 (Jack Chen)</strong>，一位擁有 <strong>8 年以上經驗</strong>的 Product／UX Designer，長期參與 B2B、B2B2C、複雜系統與軟硬體整合產品，專案涵蓋 AI PC 與創新型態筆電、服務型機器人、無人機地面控制站、企業網站，以及 0→1 健康科技產品。
+                        </p>
+                        <p>
+                            我擅長在需求尚未明確時，透過使用者研究、市場與競品分析、工作坊、資訊架構、Task Flow、Wireframe、Prototype、GUI 與場域驗證，把零散資訊整理成可討論、可測試、可開發的產品方向。
+                        </p>
+                        <p>
+                            對我職涯影響最深的專案之一，是由我提出概念的 <strong>Angleasy</strong> 穿戴式健康科技產品。它從公司內部黑客松發展為長達四年的正式跨職能專案，我參與產品定義、市場與競品研究、醫材法規探索、App／Web UX，並推動與 10+ 個合作單位、12 場展覽的驗證與推廣。產品的兩項核心發明分別取得台灣、歐盟、日本、美國與中國專利。
+                        </p>
+                        <p>
+                            近年我持續將生成式 AI 應用於資料整理、概念探索、視覺內容與快速製作，並取得經濟部 iPAS「AI 應用規劃師初級」及資策會「生成式 AI 能力認證」，也會持續增進 AI 知識與工具熟練度。
+                        </p>
+                        <p>
+                            目前仍以 Product／UX Designer 為主要方向，特別關注複雜系統、B2B 產品、跨裝置體驗、AI 產品、IoT 與工業平台；同時也開放 Digital Product Manager 或 Product Owner 的機會，希望把研究、產品探索、系統思考與跨部門協作能力，進一步帶到產品規劃與決策端。
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Discovery Process / Methodology Section -->
+    <section id="methodology" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <h2 class="text-xs uppercase tracking-widest text-cyan-400 font-tech font-bold" data-lang-en="// METHODOLOGY & FRAMEWORK" data-lang-zh="// 產品探索與設計方法論">// METHODOLOGY & FRAMEWORK</h2>
+                <h3 class="text-3xl sm:text-4xl font-extrabold text-white" data-lang-en="Navigating Ambiguity into Execution" data-lang-zh="將模糊需求轉化為可執行的產品藍圖">Navigating Ambiguity into Execution</h3>
+                <p class="text-slate-400 text-sm sm:text-base" data-lang-en="How I bridge fuzzy problem spaces with structured discovery tools and field validations." data-lang-zh="透過結構化的探索工具與實際場域驗證，引導團隊達成共識並開發落地的產品。">
+                    How I bridge fuzzy problem spaces with structured discovery tools and field validations.
+                </p>
+            </div>
+
+            <!-- Interactive 5-Step Pipeline Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                
+                <!-- Step 1 -->
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 hover:border-cyan-400/50 transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 font-tech font-bold text-lg mb-4 group-hover:scale-110 transition-transform">
+                            01
+                        </div>
+                        <h4 class="font-bold text-base text-white mb-2" data-lang-en="Research & Discovery" data-lang-zh="使用者研究與市場探索">Research & Discovery</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed" data-lang-en="User Research, Market & Competitor Analysis, Field Observations, Requirement Gathering." data-lang-zh="深度使用者訪談、競品與市場趨勢研究、實地場域觀察與需求整合。">
+                            User Research, Market & Competitor Analysis, Field Observations, Requirement Gathering.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 text-[11px] text-cyan-300 font-mono flex items-center justify-between">
+                        <span>PHASE 1</span>
+                        <i class="fa-solid fa-magnifying-glass text-slate-500"></i>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 hover:border-indigo-400/50 transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 font-tech font-bold text-lg mb-4 group-hover:scale-110 transition-transform">
+                            02
+                        </div>
+                        <h4 class="font-bold text-base text-white mb-2" data-lang-en="Alignment & Workshops" data-lang-zh="跨職能工作坊與收斂">Alignment & Workshops</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed" data-lang-en="Cross-functional Workshops, Problem Framing, Product Definition & Feature Prioritization." data-lang-zh="主持跨部門工作坊、定義關鍵問題、確立產品優先級與開發可行性。">
+                            Cross-functional Workshops, Problem Framing, Product Definition & Feature Prioritization.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 text-[11px] text-indigo-300 font-mono flex items-center justify-between">
+                        <span>PHASE 2</span>
+                        <i class="fa-solid fa-people-group text-slate-500"></i>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 hover:border-purple-400/50 transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 font-tech font-bold text-lg mb-4 group-hover:scale-110 transition-transform">
+                            03
+                        </div>
+                        <h4 class="font-bold text-base text-white mb-2" data-lang-en="IA & Task Flows" data-lang-zh="資訊架構與流程規劃">IA & Task Flows</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed" data-lang-en="Information Architecture, User Journey Mapping, Task Flow Diagrams, Complex System Logic." data-lang-zh="建構資訊架構 (IA)、用戶旅程圖、複雜任務流程 (Task Flow) 與軟硬體互動邏輯。">
+                            Information Architecture, User Journey Mapping, Task Flow Diagrams, Complex System Logic.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 text-[11px] text-purple-300 font-mono flex items-center justify-between">
+                        <span>PHASE 3</span>
+                        <i class="fa-solid fa-diagram-project text-slate-500"></i>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 hover:border-pink-400/50 transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 font-tech font-bold text-lg mb-4 group-hover:scale-110 transition-transform">
+                            04
+                        </div>
+                        <h4 class="font-bold text-base text-white mb-2" data-lang-en="Wireframes & GUI" data-lang-zh="原型與視覺介面設計">Wireframes & GUI</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed" data-lang-en="Wireframes, High-Fidelity Prototypes, GUI Design Systems, Rapid AI Concepting." data-lang-zh="高效建立低／高保真 Prototype、GUI 視覺設計規範，輔以 AI 工具快速探索概念。">
+                            Wireframes, High-Fidelity Prototypes, GUI Design Systems, Rapid AI Concepting.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 text-[11px] text-pink-300 font-mono flex items-center justify-between">
+                        <span>PHASE 4</span>
+                        <i class="fa-solid fa-pen-ruler text-slate-500"></i>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="glass-panel p-6 rounded-2xl border border-white/10 hover:border-emerald-400/50 transition-all flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 font-tech font-bold text-lg mb-4 group-hover:scale-110 transition-transform">
+                            05
+                        </div>
+                        <h4 class="font-bold text-base text-white mb-2" data-lang-en="Field Validation" data-lang-zh="場域驗證與持續疊代">Field Validation</h4>
+                        <p class="text-xs text-slate-400 leading-relaxed" data-lang-en="Usability Testing, 10+ Field Partner Testing, Exhibition Feedback & Product Iteration." data-lang-zh="10+ 合作機構實地驗證、12 場大型展覽展出收穫使用者反饋，進行產品持續疊代。">
+                            Usability Testing, 10+ Field Partner Testing, Exhibition Feedback & Product Iteration.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 text-[11px] text-emerald-300 font-mono flex items-center justify-between">
+                        <span>PHASE 5</span>
+                        <i class="fa-solid fa-vial-circle-check text-slate-500"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Domain Experience Section -->
+    <section id="projects" class="py-24 relative bg-slate-950/90 border-t border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <h2 class="text-xs uppercase tracking-widest text-cyan-400 font-tech font-bold" data-lang-en="// DOMAIN EXPERIENCE" data-lang-zh="// 專業領域與實務涵蓋">// DOMAIN EXPERIENCE</h2>
+                <h3 class="text-3xl sm:text-4xl font-extrabold text-white" data-lang-en="Proven Expertise Across Complex Domains" data-lang-zh="跨領域複雜系統與軟硬整合專案">Proven Expertise Across Complex Domains</h3>
+                <p class="text-slate-400 text-sm sm:text-base" data-lang-en="8+ years of shaping high-stakes B2B, B2B2C, hardware-integrated systems, and enterprise tools." data-lang-zh="跨越 B2B、B2B2C、AI PC、機器人、無人機與健康醫療產業的深厚專案積累。">
+                    8+ years of shaping high-stakes B2B, B2B2C, hardware-integrated systems, and enterprise tools.
+                </p>
+            </div>
+
+            <!-- Project Domains Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Domain 1: AI PC & New Form Factor Laptops -->
+                <div class="glass-panel glass-panel-interactive p-6 rounded-3xl border border-white/10 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 p-0.5 shadow-glow-cyan">
+                            <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-cyan-400 text-xl">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-xl font-bold text-white">AI PCs & New-Form-Factor Laptops</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed" data-lang-en="Designed multi-screen, dual-display, and AI-assisted desktop/laptop interfaces. Balanced complex system constraints with effortless user interactions." data-lang-zh="專注於 AI 筆電與創新雙螢幕／多螢幕型態態體驗設計，結合 AI 功能與複雜作業系統介面優化。">
+                            Designed multi-screen, dual-display, and AI-assisted desktop/laptop interfaces. Balanced complex system constraints with effortless user interactions.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 flex flex-wrap gap-2 text-[10px] font-semibold text-cyan-300">
+                        <span class="px-2.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20">AI Integration</span>
+                        <span class="px-2.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20">Hardware/Software UX</span>
+                        <span class="px-2.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20">Multi-Display</span>
+                    </div>
+                </div>
+
+                <!-- Domain 2: Service Robots & Robotics -->
+                <div class="glass-panel glass-panel-interactive p-6 rounded-3xl border border-white/10 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-500 to-purple-600 p-0.5 shadow-glow-purple">
+                            <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-indigo-400 text-xl">
+                                <i class="fa-solid fa-robot"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-xl font-bold text-white">Service Robots System</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed" data-lang-en="Architected task workflows and visual interfaces for autonomous service robots operating in commercial and public environments." data-lang-zh="規劃服務型機器人之人機互動 (HMI)、任務導航介面、遠端狀態監控與現場使用者操作流程。">
+                            Architected task workflows and visual interfaces for autonomous service robots operating in commercial and public environments.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 flex flex-wrap gap-2 text-[10px] font-semibold text-indigo-300">
+                        <span class="px-2.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20">Robotics UX</span>
+                        <span class="px-2.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20">HMI Design</span>
+                        <span class="px-2.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20">Autonomous Fleet</span>
+                    </div>
+                </div>
+
+                <!-- Domain 3: Drone Ground Control Systems (GCS) -->
+                <div class="glass-panel glass-panel-interactive p-6 rounded-3xl border border-white/10 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-500 to-pink-600 p-0.5 shadow-glow-pink">
+                            <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-purple-400 text-xl">
+                                <i class="fa-solid fa-plane-triangle"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-xl font-bold text-white">Drone Ground Control Station (GCS)</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed" data-lang-en="Streamlined high-density telemetry data, flight planning, and real-time payload management into intuitive GCS control dashboards." data-lang-zh="精簡高密度航情數據、飛行任務規劃與即時監控介面，降低操作員高壓環境下的認知負載。">
+                            Streamlined high-density telemetry data, flight planning, and real-time payload management into intuitive GCS control dashboards.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 flex flex-wrap gap-2 text-[10px] font-semibold text-purple-300">
+                        <span class="px-2.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/20">Complex Mission Control</span>
+                        <span class="px-2.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/20">Telemetry Data Viz</span>
+                        <span class="px-2.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/20">B2B Systems</span>
+                    </div>
+                </div>
+
+                <!-- Domain 4: Enterprise Websites & B2B Platforms -->
+                <div class="glass-panel glass-panel-interactive p-6 rounded-3xl border border-white/10 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-500 to-cyan-500 p-0.5">
+                            <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-sky-400 text-xl">
+                                <i class="fa-solid fa-network-wired"></i>
+                            </div>
+                        </div>
+                        <h4 class="text-xl font-bold text-white">Enterprise Platforms & Websites</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed" data-lang-en="Structured large-scale B2B web applications and enterprise portals with scalable Information Architecture and clear navigational logic." data-lang-zh="重新梳理大型企業級網站與 B2B 管理平台之資訊架構 (IA)，整合多角色權限與複雜管理邏輯。">
+                            Structured large-scale B2B web applications and enterprise portals with scalable Information Architecture and clear navigational logic.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 flex flex-wrap gap-2 text-[10px] font-semibold text-sky-300">
+                        <span class="px-2.5 py-1 rounded-full bg-sky-500/10 border border-sky-500/20">Information Architecture</span>
+                        <span class="px-2.5 py-1 rounded-full bg-sky-500/10 border border-sky-500/20">B2B Web Systems</span>
+                    </div>
+                </div>
+
+                <!-- Domain 5: Health-Tech & Wearable Innovations -->
+                <div class="glass-panel glass-panel-interactive p-6 rounded-3xl border border-white/10 flex flex-col justify-between md:col-span-2 lg:col-span-2">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-400 to-teal-600 p-0.5 shadow-glow-cyan">
+                                <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-emerald-400 text-xl">
+                                    <i class="fa-solid fa-heart-pulse"></i>
+                                </div>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-bold">0→1 Core Career Milestone</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-white">0→1 Health-Tech Wearable Product (Angleasy)</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed" data-lang-en="Initiated concept at internal hackathon and grew it into a 4-year formal cross-functional flagship project. Guided regulation exploration, mobile/web UX, and global patenting." data-lang-zh="從公司內部黑客松發想提案，推動為長達四年的正式跨部門產品專案。涵蓋醫材法規研析、App/Web UX、臨床試驗與全球 5 國/地區發明專利。">
+                            Initiated concept at internal hackathon and grew it into a 4-year formal cross-functional flagship project. Guided regulation exploration, mobile/web UX, and global patenting.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-white/10 flex flex-wrap gap-2 text-[10px] font-semibold text-emerald-300">
+                        <span class="px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">Hackathon to Incubation</span>
+                        <span class="px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">Medical Device Regulations</span>
+                        <span class="px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">5-Jurisdiction Patents</span>
+                        <span class="px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">Cross-functional Leadership</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Angleasy Spotlight Feature Section -->
+    <section id="angleasy" class="py-24 relative grid-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Angleasy Main Card Banner -->
+            <div class="glass-panel p-8 sm:p-12 rounded-3xl border border-cyan-500/30 relative overflow-hidden shadow-2xl">
+                
+                <!-- Decorative Glow Background -->
+                <div class="absolute -top-24 -right-24 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
+                    
+                    <!-- Left Column: Details & Narrative -->
+                    <div class="lg:col-span-7 space-y-6">
+                        
+                        <div class="flex flex-wrap items-center gap-3">
+                            <span class="px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-tech font-bold text-xs uppercase tracking-wider">
+                                Featured Case Study
+                            </span>
+                            <span class="px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-xs">
+                                4-Year Journey
+                            </span>
+                        </div>
+
+                        <h3 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+                            Angleasy <br>
+                            <span class="gradient-text-cyan">Wearable Health-Tech 0→1</span>
+                        </h3>
+
+                        <p class="text-sm sm:text-base text-slate-300 leading-relaxed"
+                           data-lang-en="One of the most meaningful projects in my career was Angleasy, a wearable health-tech product I proposed at an internal hackathon that grew into a four-year, formal cross-functional project. I contributed to product definition, market and competitor research, regulatory exploration, and App/Web UX, and drove validation with 10+ partner organizations across 12 exhibitions. The product's two core inventions were granted patents in Taiwan, the EU, Japan, the US, and China."
+                           data-lang-zh="對我職涯影響最深的專案之一，是由我提出概念的 Angleasy 穿戴式健康科技產品。它從公司內部黑客松發展為長達四年的正式跨職能專案，我參與產品定義、市場與競品研究、醫材法規探索、App／Web UX，並推動與 10+ 個合作單位、12 場展覽的驗證與推廣。產品的兩項核心發明分別取得台灣、歐盟、日本、美國與中國專利。">
+                            One of the most meaningful projects in my career was Angleasy, a wearable health-tech product I proposed at an internal hackathon that grew into a four-year, formal cross-functional project. I contributed to product definition, market and competitor research, regulatory exploration, and App/Web UX, and drove validation with 10+ partner organizations across 12 exhibitions. The product's two core inventions were granted patents in Taiwan, the EU, Japan, the US, and China.
+                        </p>
+
+                        <!-- Key Responsibilities Bullet Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                            <div class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0 mt-0.5 text-xs">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <div class="text-xs text-slate-300">
+                                    <strong class="text-white block" data-lang-en="Internal Hackathon Proposal" data-lang-zh="黑客松原創概念提案">Internal Hackathon Proposal</strong>
+                                    <span data-lang-en="Transformed winning concept into full cross-functional roadmap." data-lang-zh="將黑客松獲獎作品轉化為四年正式開發專案。">Transformed winning concept into full cross-functional roadmap.</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0 mt-0.5 text-xs">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <div class="text-xs text-slate-300">
+                                    <strong class="text-white block" data-lang-en="App & Web UX Architecture" data-lang-zh="App 與 Web 全平台 UX 規劃">App & Web UX Architecture</strong>
+                                    <span data-lang-en="Designed intuitive dashboards for patients & practitioners." data-lang-zh="為患者與專業醫護人員打造精準流暢的雙端介面。">Designed intuitive dashboards for patients & practitioners.</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0 mt-0.5 text-xs">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <div class="text-xs text-slate-300">
+                                    <strong class="text-white block" data-lang-en="Regulatory Exploration" data-lang-zh="醫療法規與競品調研">Regulatory Exploration</strong>
+                                    <span data-lang-en="Researched healthcare regulations & market barriers." data-lang-zh="深入調研醫材法規限制與醫療科技產品合規流程。">Researched healthcare regulations & market barriers.</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0 mt-0.5 text-xs">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <div class="text-xs text-slate-300">
+                                    <strong class="text-white block" data-lang-en="10+ Partner Field Validations" data-lang-zh="10+ 合作機構與 12 場大展">10+ Partner Field Validations</strong>
+                                    <span data-lang-en="Validated with institutions & featured in 12 tech expos." data-lang-zh="攜手 10 多個合作單位推動驗證，參展 12 場大型國際展覽。">Validated with institutions & featured in 12 tech expos.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Patents Country Badges Showcase -->
+                        <div class="pt-4 border-t border-white/10 space-y-3">
+                            <div class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                                <i class="fa-solid fa-certificate text-yellow-400"></i>
+                                <span data-lang-en="2 Core Inventions Granted Invention Patents In:" data-lang-zh="兩項核心發明取得 5 國/地區發明專利：">2 Core Inventions Granted Invention Patents In:</span>
+                            </div>
+                            <div class="flex flex-wrap gap-2 text-xs font-bold">
+                                <span class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 flex items-center gap-2">
+                                    <i class="fa-solid fa-flag text-cyan-400"></i> Taiwan (台灣)
+                                </span>
+                                <span class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 flex items-center gap-2">
+                                    <i class="fa-solid fa-earth-europe text-indigo-400"></i> EU (歐盟)
+                                </span>
+                                <span class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 flex items-center gap-2">
+                                    <i class="fa-solid fa-sun text-pink-400"></i> Japan (日本)
+                                </span>
+                                <span class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 flex items-center gap-2">
+                                    <i class="fa-solid fa-star text-yellow-400"></i> US (美國)
+                                </span>
+                                <span class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 flex items-center gap-2">
+                                    <i class="fa-solid fa-shield text-emerald-400"></i> China (中國)
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right Column: Interactive Highlight Metrics & Visual Deck Card -->
+                    <div class="lg:col-span-5 space-y-4">
+                        
+                        <div class="glass-panel p-6 rounded-2xl border border-white/10 bg-slate-900/90 text-center space-y-3 relative overflow-hidden">
+                            <div class="absolute top-0 right-0 px-3 py-1 bg-cyan-500 text-slate-950 text-[10px] font-bold font-tech rounded-bl-xl">INVENTION</div>
+                            <div class="text-4xl sm:text-5xl font-black text-cyan-400 font-tech">4 YEARS</div>
+                            <div class="text-xs text-slate-300 font-semibold uppercase tracking-wider" data-lang-en="Cross-Functional Project Growth" data-lang-zh="黑客松發想至四年跨職能開發">Cross-Functional Project Growth</div>
+                            <p class="text-[11px] text-slate-400 leading-relaxed" data-lang-en="From concept pitch to clinical iteration, user interviews, regulatory compliance, and multi-platform UX." data-lang-zh="涵蓋概念發想、使用者採訪、團隊跨部門溝通、臨床場域測試與合規體驗。">
+                                From concept pitch to clinical iteration, user interviews, regulatory compliance, and multi-platform UX.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="glass-panel p-5 rounded-2xl border border-white/10 text-center space-y-1">
+                                <div class="text-3xl font-extrabold text-indigo-400 font-tech">10+</div>
+                                <div class="text-[11px] text-slate-300 font-medium" data-lang-en="Partner Institutions" data-lang-zh="合作單位實地驗證">Partner Institutions</div>
+                            </div>
+                            <div class="glass-panel p-5 rounded-2xl border border-white/10 text-center space-y-1">
+                                <div class="text-3xl font-extrabold text-pink-400 font-tech">12</div>
+                                <div class="text-[11px] text-slate-300 font-medium" data-lang-en="Global Exhibitions" data-lang-zh="場展覽推進與試用">Global Exhibitions</div>
+                            </div>
+                        </div>
+
+                        <!-- Mock Interactive Visual UI Graphic -->
+                        <div class="glass-panel p-4 rounded-2xl border border-white/10 flex items-center justify-between text-xs">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-mobile-screen-button text-cyan-400 text-xl"></i>
+                                <div>
+                                    <span class="font-bold text-white block">Cross-Platform UX</span>
+                                    <span class="text-[10px] text-slate-400">iOS, Android & Web Dashboard</span>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-mono">COMPLETE</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- AI Competency & Certifications Section -->
+    <section id="ai-certifications" class="py-24 relative bg-slate-950/80 border-t border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <h2 class="text-xs uppercase tracking-widest text-cyan-400 font-tech font-bold" data-lang-en="// ARTIFICIAL INTELLIGENCE" data-lang-zh="// 生成式 AI 應用與認證">// ARTIFICIAL INTELLIGENCE</h2>
+                <h3 class="text-3xl sm:text-4xl font-extrabold text-white" data-lang-en="Generative AI & UX Synergy" data-lang-zh="生成式 AI 賦能研究與快速原型製作">Generative AI & UX Synergy</h3>
+                <p class="text-slate-400 text-sm sm:text-base" data-lang-en="Leveraging state-of-the-art AI tools to accelerate research synthesis, visual exploration, and rapid prototyping." data-lang-zh="將生成式 AI 深植於使用者研究整理、視覺概念探索與快速 Prototype 製作流程。">
+                    Leveraging state-of-the-art AI tools to accelerate research synthesis, visual exploration, and rapid prototyping.
+                </p>
+            </div>
+
+            <!-- AI Section Content Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                
+                <!-- Left 7 Cols: How AI is Applied in Jack's Workflow -->
+                <div class="lg:col-span-7 space-y-6 flex flex-col justify-between">
+                    <div class="glass-panel p-8 rounded-3xl border border-white/10 space-y-6 h-full">
+                        <h4 class="text-2xl font-bold text-white flex items-center gap-3">
+                            <i class="fa-solid fa-microchip text-cyan-400"></i>
+                            <span data-lang-en="AI-Enhanced UX Workflow" data-lang-zh="AI 賦能的工作流程">AI-Enhanced UX Workflow</span>
+                        </h4>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- AI Application 1 -->
+                            <div class="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-cyan-500/30 transition-all space-y-2">
+                                <div class="text-cyan-400 font-bold text-sm flex items-center gap-2">
+                                    <i class="fa-solid fa-cubes-stacked"></i>
+                                    <span data-lang-en="Research Synthesis" data-lang-zh="資料整理與研究收斂">Research Synthesis</span>
+                                </div>
+                                <p class="text-xs text-slate-300 leading-relaxed" data-lang-en="Synthesizing qualitatively dense user interviews, transcriptions, and market reports into structured key insights." data-lang-zh="運用 LLM 快速歸納使用者訪談逐字稿、市場產業報告，萃取出結構化觀點。">
+                                    Synthesizing qualitatively dense user interviews, transcriptions, and market reports into structured key insights.
+                                </p>
+                            </div>
+
+                            <!-- AI Application 2 -->
+                            <div class="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-indigo-500/30 transition-all space-y-2">
+                                <div class="text-indigo-400 font-bold text-sm flex items-center gap-2">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                    <span data-lang-en="Concept Exploration" data-lang-zh="概念發想與視覺驗證">Concept Exploration</span>
+                                </div>
+                                <p class="text-xs text-slate-300 leading-relaxed" data-lang-en="Using Generative AI models to quickly ideate UI themes, moodboards, graphics, and layout variations." data-lang-zh="利用生成式視覺工具加速概念靈感發想、Moodboard 製作與多樣化介面風格試驗。">
+                                    Using Generative AI models to quickly ideate UI themes, moodboards, graphics, and layout variations.
+                                </p>
+                            </div>
+
+                            <!-- AI Application 3 -->
+                            <div class="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-pink-500/30 transition-all space-y-2">
+                                <div class="text-pink-400 font-bold text-sm flex items-center gap-2">
+                                    <i class="fa-solid fa-bolt"></i>
+                                    <span data-lang-en="Rapid Prototyping" data-lang-zh="快速製作 Prototype">Rapid Prototyping</span>
+                                </div>
+                                <p class="text-xs text-slate-300 leading-relaxed" data-lang-en="Accelerating front-end prototype code generation and interactive mockups to test design concepts earlier." data-lang-zh="配合前端程式 AI 輔助開發，極速產出具備互動能力的驗證級原型。">
+                                    Accelerating front-end prototype code generation and interactive mockups to test design concepts earlier.
+                                </p>
+                            </div>
+
+                            <!-- AI Application 4 -->
+                            <div class="p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-emerald-500/30 transition-all space-y-2">
+                                <div class="text-emerald-400 font-bold text-sm flex items-center gap-2">
+                                    <i class="fa-solid fa-chart-line"></i>
+                                    <span data-lang-en="Continuous Growth" data-lang-zh="持續學習與工具實戰">Continuous Growth</span>
+                                </div>
+                                <p class="text-xs text-slate-300 leading-relaxed" data-lang-en="Constantly adopting new AI tools, prompts, and frameworks to keep design efficiency at the cutting edge." data-lang-zh="持續關注最新生成式 AI 技術、Prompt 工程與工具演進，保持極佳開發效率。">
+                                    Constantly adopting new AI tools, prompts, and frameworks to keep design efficiency at the cutting edge.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right 5 Cols: Certifications Showcase Cards -->
+                <div class="lg:col-span-5 space-y-6 flex flex-col justify-between">
+                    
+                    <!-- Certification 1: iPAS -->
+                    <div class="glass-panel p-6 rounded-3xl border border-cyan-500/30 space-y-4 relative overflow-hidden group hover:shadow-glow-cyan transition-all">
+                        <div class="flex items-center justify-between">
+                            <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <span class="px-2.5 py-1 bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 rounded-full text-[10px] font-mono">
+                                TAIWAN MOEA
+                            </span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 uppercase tracking-wider block font-tech" data-lang-en="National Certification" data-lang-zh="經濟部國家專業能力鑑定">National Certification</span>
+                            <h4 class="text-lg font-extrabold text-white mt-1" data-lang-en="Taiwan iPAS AI Application Planner Certification" data-lang-zh="經濟部 iPAS「AI 應用規劃師初級」認證">
+                                Taiwan iPAS AI Application Planner Certification
+                            </h4>
+                            <p class="text-xs text-slate-300 mt-2" data-lang-en="Certified for understanding AI project frameworks, data planning, and practical enterprise application modeling." data-lang-zh="通過經濟部產業人才能力鑑定，具備企業 AI 專案規劃、數據處理與 AI 落地應用評估實力。">
+                                Certified for understanding AI project frameworks, data planning, and practical enterprise application modeling.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Certification 2: III Generative AI -->
+                    <div class="glass-panel p-6 rounded-3xl border border-purple-500/30 space-y-4 relative overflow-hidden group hover:shadow-glow-purple transition-all">
+                        <div class="flex items-center justify-between">
+                            <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <span class="px-2.5 py-1 bg-purple-500/10 text-purple-300 border border-purple-500/20 rounded-full text-[10px] font-mono">
+                                III CERTIFIED
+                            </span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 uppercase tracking-wider block font-tech" data-lang-en="Professional Institute" data-lang-zh="資策會專業認證">Professional Institute</span>
+                            <h4 class="text-lg font-extrabold text-white mt-1" data-lang-en="III Generative AI Competency Certification" data-lang-zh="資策會「生成式 AI 能力認證」">
+                                III Generative AI Competency Certification
+                            </h4>
+                            <p class="text-xs text-slate-300 mt-2" data-lang-en="Certified competency in generative AI tools, prompt engineering, workflow integration, and ethical AI implementation." data-lang-zh="證實具備生成式 AI 工具操作、Prompt 指令調校、工作流程整合與 AI 實務應用能力。">
+                                Certified competency in generative AI tools, prompt engineering, workflow integration, and ethical AI implementation.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Current Focus & Target Opportunities Section -->
+    <section id="roles" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <h2 class="text-xs uppercase tracking-widest text-cyan-400 font-tech font-bold" data-lang-en="// CAREER PATHWAYS" data-lang-zh="// 未來職涯與目標角色">// CAREER PATHWAYS</h2>
+                <h3 class="text-3xl sm:text-4xl font-extrabold text-white" data-lang-en="Current Focus & Opportunities" data-lang-zh="當前專注領域與合作定位">Current Focus & Opportunities</h3>
+                <p class="text-slate-400 text-sm sm:text-base" data-lang-en="Open to senior roles where research, system thinking, and product strategy intersect." data-lang-zh="歡迎聯繫 Product / UX Designer 以及 Digital Product Manager / Product Owner 等機會。">
+                    Open to senior roles where research, system thinking, and product strategy intersect.
+                </p>
+            </div>
+
+            <!-- Dual Pathway Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Role 1: Product / UX Designer -->
+                <div class="glass-panel p-8 rounded-3xl border border-cyan-500/30 space-y-6 relative overflow-hidden flex flex-col justify-between hover:border-cyan-400 transition-all">
+                    <div class="space-y-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-xs font-bold font-tech">
+                            PRIMARY FOCUS
+                        </div>
+                        <h4 class="text-2xl font-extrabold text-white">Product / UX Designer</h4>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed"
+                           data-lang-en="Focusing on complex systems, B2B products, multi-device experiences, AI products, IoT, and industrial platforms. Experienced in turning ambiguous user needs into structured, scalable UX architectures."
+                           data-lang-zh="特別關注複雜系統、B2B 產品、跨裝置體驗、AI 產品、IoT 與工業平台；精通在高度不確定的軟硬體條件下建立使用者體驗架構。">
+                            Focusing on complex systems, B2B products, multi-device experiences, AI products, IoT, and industrial platforms. Experienced in turning ambiguous user needs into structured, scalable UX architectures.
+                        </p>
+
+                        <div class="space-y-2 pt-2">
+                            <span class="text-xs text-slate-400 font-bold block uppercase" data-lang-en="Key Strengths:" data-lang-zh="核心優勢：">Key Strengths:</span>
+                            <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+                                <li data-lang-en="Complex Hardware/Software Integration" data-lang-zh="軟硬體整合與多裝置體驗">Complex Hardware/Software Integration</li>
+                                <li data-lang-en="0→1 Product Discovery & Prototyping" data-lang-zh="0→1 產品探索與快速原型驗證">0→1 Product Discovery & Prototyping</li>
+                                <li data-lang-en="User Research & Field Usability Testing" data-lang-zh="使用者研究與真實場域驗證">User Research & Field Usability Testing</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-white/10 flex items-center justify-between text-xs text-cyan-300">
+                        <span data-lang-en="Available for Senior UX Roles" data-lang-zh="開放 資深 Product / UX Designer 職缺">Available for Senior UX Roles</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </div>
+
+                <!-- Role 2: Digital Product Manager / Product Owner -->
+                <div class="glass-panel p-8 rounded-3xl border border-indigo-500/30 space-y-6 relative overflow-hidden flex flex-col justify-between hover:border-indigo-400 transition-all">
+                    <div class="space-y-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold font-tech">
+                            STRATEGIC OPPORTUNITY
+                        </div>
+                        <h4 class="text-2xl font-extrabold text-white">Digital Product Manager / Product Owner</h4>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed"
+                           data-lang-en="Bringing user research, product discovery, systems thinking, and cross-functional collaboration closer to product planning, roadmap prioritization, and strategic decision-making."
+                           data-lang-zh="期待將深厚的使用者研究、產品探索、系統思考與跨部門協作能力，近一步帶到產品規劃、Roadmap 排定與決策端。">
+                            Bringing user research, product discovery, systems thinking, and cross-functional collaboration closer to product planning, roadmap prioritization, and strategic decision-making.
+                        </p>
+
+                        <div class="space-y-2 pt-2">
+                            <span class="text-xs text-slate-400 font-bold block uppercase" data-lang-en="Key Strengths:" data-lang-zh="核心優勢：">Key Strengths:</span>
+                            <ul class="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+                                <li data-lang-en="Cross-functional Team Alignment (4-year project record)" data-lang-zh="跨部門溝通與凝聚團隊共識 (四年專案主持)">Cross-functional Team Alignment (4-year project record)</li>
+                                <li data-lang-en="Market/Competitor Analysis & Regulatory Exploration" data-lang-zh="市場/競品研析與合規化產品策略">Market/Competitor Analysis & Regulatory Exploration</li>
+                                <li data-lang-en="Bridging User Insights with Business Goals" data-lang-zh="銜接用戶洞察與商業決策">Bridging User Insights with Business Goals</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-white/10 flex items-center justify-between text-xs text-indigo-300">
+                        <span data-lang-en="Open to DPM / PO Opportunities" data-lang-zh="開放 Digital PM / Product Owner 職缺">Open to DPM / PO Opportunities</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Hashtag Cloud Pills -->
+            <div class="mt-12 text-center">
+                <div class="text-xs font-tech text-slate-400 uppercase tracking-widest mb-4" data-lang-en="// INDUSTRY TAGS" data-lang-zh="// 相關標籤">// INDUSTRY TAGS</div>
+                <div class="flex flex-wrap justify-center gap-2">
+                    <span class="px-3 py-1.5 rounded-full glass-panel text-xs text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-all">#ProductDesign</span>
+                    <span class="px-3 py-1.5 rounded-full glass-panel text-xs text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-all">#UXResearch</span>
+                    <span class="px-3 py-1.5 rounded-full glass-panel text-xs text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-all">#ProductManagement</span>
+                    <span class="px-3 py-1.5 rounded-full glass-panel text-xs text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-all">#B2B</span>
+                    <span class="px-3 py-1.5 rounded-full glass-panel text-xs text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-all">#B2B2C</span>
+                    <span class="px-3 py-1.5 rounded-full glass-panel text-xs text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-all">#ComplexSystems</span>
+                    <span class="px-3 py-1.5 rounded-full glass-panel text-xs text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-all">#0to1Product</span>
+                    <span class="px-3 py-1.5 rounded-full glass-panel text-xs text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-all">#AIProducts</span>
+                    <span class="px-3 py-1.5 rounded-full glass-panel text-xs text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-all">#HealthTech</span>
+                    <span class="px-3 py-1.5 rounded-full glass-panel text-xs text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-all">#DigitalProductManager</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Contact & Footer Section -->
+    <section id="contact" class="py-24 relative bg-slate-950 border-t border-white/10">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+            
+            <div class="space-y-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span data-lang-en="Open for Opportunities & Discussions" data-lang-zh="歡迎交流與對接職涯機會">Open for Opportunities & Discussions</span>
+                </div>
+
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+                    Let's Build Impactful Products <br>
+                    <span class="gradient-text">Together.</span>
+                </h2>
+
+                <p class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto"
+                   data-lang-en="Interested in discussing a complex UX challenge, a 0→1 discovery phase, or potential roles? Feel free to reach out!"
+                   data-lang-zh="若您對複雜系統 UX、0→1 產品探索專案或潛在職缺感興趣，歡迎隨時聯繫！">
+                    Interested in discussing a complex UX challenge, a 0→1 discovery phase, or potential roles? Feel free to reach out!
+                </p>
+            </div>
+
+            <!-- Contact Link Buttons -->
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <!-- Personal Website Button -->
+                <a href="https://taiyun.design/" target="_blank" rel="noopener noreferrer" class="px-5 py-3.5 rounded-2xl glass-panel hover:bg-white/10 text-white font-bold text-sm border border-cyan-400/50 transition-all flex items-center gap-2.5 shadow-glow-cyan hover:scale-105">
+                    <i class="fa-solid fa-globe text-cyan-400 text-lg"></i>
+                    <span>taiyun.design</span>
+                </a>
+
+                <!-- LinkedIn Button -->
+                <a href="https://www.linkedin.com/in/tai-yun-chen/" target="_blank" rel="noopener noreferrer" class="px-5 py-3.5 rounded-2xl glass-panel hover:bg-white/10 text-white font-bold text-sm border border-sky-500/40 transition-all flex items-center gap-2.5 shadow-md hover:scale-105">
+                    <i class="fa-brands fa-linkedin text-sky-400 text-lg"></i>
+                    <span>LinkedIn</span>
+                </a>
+
+                <!-- Medium Button -->
+                <a href="https://medium.com/@taiyunchen" target="_blank" rel="noopener noreferrer" class="px-5 py-3.5 rounded-2xl glass-panel hover:bg-white/10 text-white font-bold text-sm border border-emerald-500/40 transition-all flex items-center gap-2.5 shadow-md hover:scale-105">
+                    <i class="fa-brands fa-medium text-emerald-400 text-lg"></i>
+                    <span>Medium</span>
+                </a>
+
+                <!-- GitHub Button -->
+                <a href="https://github.com/ubechen" target="_blank" rel="noopener noreferrer" class="px-5 py-3.5 rounded-2xl glass-panel hover:bg-white/10 text-white font-bold text-sm border border-purple-500/40 transition-all flex items-center gap-2.5 shadow-glow-purple hover:scale-105">
+                    <i class="fa-brands fa-github text-purple-400 text-lg"></i>
+                    <span>GitHub</span>
+                </a>
+
+                <!-- Email Link -->
+                <a href="mailto:taiyun0614@gmail.com" onclick="copyEmail(event)" class="px-5 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-400 to-indigo-500 hover:brightness-110 text-slate-950 font-bold text-sm transition-all flex items-center gap-2.5 shadow-lg hover:scale-105">
+                    <i class="fa-solid fa-envelope text-slate-950 text-lg"></i>
+                    <span id="emailBtnText" data-lang-en="Contact via Email" data-lang-zh="發送 Email 聯繫">Contact via Email</span>
+                </a>
+            </div>
+
+            <!-- Social Media Icon Fast Bar -->
+            <div class="pt-6 flex items-center justify-center gap-4">
+                <a href="https://taiyun.design/" target="_blank" rel="noopener noreferrer" title="Personal Website" class="w-10 h-10 rounded-xl glass-panel hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-400 flex items-center justify-center border border-white/10 hover:border-cyan-400/50 transition-all">
+                    <i class="fa-solid fa-globe text-base"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/tai-yun-chen/" target="_blank" rel="noopener noreferrer" title="LinkedIn" class="w-10 h-10 rounded-xl glass-panel hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-400 flex items-center justify-center border border-white/10 hover:border-cyan-400/50 transition-all">
+                    <i class="fa-brands fa-linkedin-in text-base"></i>
+                </a>
+                <a href="https://medium.com/@taiyunchen" target="_blank" rel="noopener noreferrer" title="Medium Articles" class="w-10 h-10 rounded-xl glass-panel hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-400 flex items-center justify-center border border-white/10 hover:border-cyan-400/50 transition-all">
+                    <i class="fa-brands fa-medium text-base"></i>
+                </a>
+                <a href="https://github.com/ubechen" target="_blank" rel="noopener noreferrer" title="GitHub" class="w-10 h-10 rounded-xl glass-panel hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-400 flex items-center justify-center border border-white/10 hover:border-cyan-400/50 transition-all">
+                    <i class="fa-brands fa-github text-base"></i>
+                </a>
+            </div>
+
+            <!-- Interactive Notification Toast for email copy -->
+            <div id="toast" class="hidden fixed bottom-6 right-6 px-4 py-3 rounded-2xl glass-panel border border-cyan-400 text-cyan-300 text-xs font-bold shadow-2xl transition-all z-50 flex items-center gap-2">
+                <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                <span id="toastMsg">Email copied!</span>
+            </div>
+
+            <!-- Footer copyright & metadata -->
+            <div class="pt-16 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                <div>
+                    © 2026 Jack Chen (陳泰運). All rights reserved.
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="hover:text-cyan-400 transition-colors cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                        <i class="fa-solid fa-arrow-up mr-1"></i> Back to Top
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Floating Audio Player Widget -->
+    <div id="audioPlayerWidget" class="fixed bottom-6 left-6 z-50 glass-panel p-3 rounded-2xl border border-cyan-500/30 shadow-glow-cyan flex items-center gap-3 backdrop-blur-xl transition-all max-w-[280px] sm:max-w-xs">
+        <audio id="bgAudio" src="https://img.ai365.fans/artworks/5d9b7364-f483-41bd-827c-982491c91141/j0gv74zd8g.mp3" loop autoplay preload="auto"></audio>
+
+        <!-- Play/Pause Button -->
+        <button id="audioToggleBtn" onclick="toggleAudio()" class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 to-indigo-500 text-slate-950 flex items-center justify-center shrink-0 font-bold hover:scale-105 active:scale-95 transition-transform shadow-md" title="Play Ambient Music">
+            <i class="fa-solid fa-play text-xs ml-0.5" id="audioIcon"></i>
+        </button>
+
+        <!-- Audio Details & Equalizer -->
+        <div class="flex-1 min-w-0 pr-1">
+            <div class="flex items-center justify-between gap-1">
+                <span class="text-[11px] font-bold text-white truncate" id="audioTitle" data-lang-en="Ambient Soundscape" data-lang-zh="背景氛圍音樂">Ambient Soundscape</span>
+                <div id="eqVisualizer" class="flex items-end gap-0.5 h-4 opacity-40">
+                    <span class="w-0.5 bg-cyan-400 rounded-full h-1"></span>
+                    <span class="w-0.5 bg-cyan-400 rounded-full h-2"></span>
+                    <span class="w-0.5 bg-cyan-400 rounded-full h-1"></span>
+                </div>
+            </div>
+
+            <!-- Volume Control Bar -->
+            <div class="flex items-center gap-2 mt-1">
+                <button onclick="toggleMute()" class="text-slate-400 hover:text-cyan-400 text-xs transition-colors" title="Toggle Mute">
+                    <i class="fa-solid fa-volume-high text-[10px]" id="volumeIcon"></i>
+                </button>
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" oninput="adjustVolume(this.value)" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentLang = 'en';
+
+        // Theme Toggle Functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                themeIcon.className = 'fa-solid fa-sun text-amber-400 text-base';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                themeIcon.className = 'fa-solid fa-moon text-cyan-400 text-base';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Initialize theme preference from localStorage if set
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+            const themeIcon = document.getElementById('themeIcon');
+            if (themeIcon) themeIcon.className = 'fa-solid fa-sun text-amber-400 text-base';
+        }
+
+        // Audio Player Controls
+        const audio = document.getElementById('bgAudio');
+        const audioBtn = document.getElementById('audioToggleBtn');
+        const audioIcon = document.getElementById('audioIcon');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeIcon = document.getElementById('volumeIcon');
+        const eqVisualizer = document.getElementById('eqVisualizer');
+
+        // Set initial volume
+        audio.volume = 0.5;
+
+        // Auto Play Handler with browser policy fallback
+        function startAutoplay() {
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    audioIcon.className = 'fa-solid fa-pause text-xs';
+                    eqVisualizer.className = 'flex items-end gap-0.5 h-4 opacity-100';
+                    eqVisualizer.children[0].className = 'w-0.5 bg-cyan-400 rounded-full animate-eq-1';
+                    eqVisualizer.children[1].className = 'w-0.5 bg-cyan-400 rounded-full animate-eq-2';
+                    eqVisualizer.children[2].className = 'w-0.5 bg-cyan-400 rounded-full animate-eq-3';
+                }).catch(e => {
+                    // Browsers require a user gesture before autoplaying sound
+                    const enableAudioOnInteraction = () => {
+                        audio.play().then(() => {
+                            audioIcon.className = 'fa-solid fa-pause text-xs';
+                            eqVisualizer.className = 'flex items-end gap-0.5 h-4 opacity-100';
+                            eqVisualizer.children[0].className = 'w-0.5 bg-cyan-400 rounded-full animate-eq-1';
+                            eqVisualizer.children[1].className = 'w-0.5 bg-cyan-400 rounded-full animate-eq-2';
+                            eqVisualizer.children[2].className = 'w-0.5 bg-cyan-400 rounded-full animate-eq-3';
+                        }).catch(() => {});
+                        window.removeEventListener('click', enableAudioOnInteraction);
+                        window.removeEventListener('touchstart', enableAudioOnInteraction);
+                        window.removeEventListener('scroll', enableAudioOnInteraction);
+                    };
+                    window.addEventListener('click', enableAudioOnInteraction, { once: true });
+                    window.addEventListener('touchstart', enableAudioOnInteraction, { once: true });
+                    window.addEventListener('scroll', enableAudioOnInteraction, { once: true });
+                });
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startAutoplay);
+        } else {
+            startAutoplay();
+        }
+
+        function toggleAudio() {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    audioIcon.className = 'fa-solid fa-pause text-xs';
+                    eqVisualizer.className = 'flex items-end gap-0.5 h-4 opacity-100';
+                    eqVisualizer.children[0].className = 'w-0.5 bg-cyan-400 rounded-full animate-eq-1';
+                    eqVisualizer.children[1].className = 'w-0.5 bg-cyan-400 rounded-full animate-eq-2';
+                    eqVisualizer.children[2].className = 'w-0.5 bg-cyan-400 rounded-full animate-eq-3';
+                }).catch(e => {
+                    console.log('Audio autoplay blocked:', e);
+                });
+            } else {
+                audio.pause();
+                audioIcon.className = 'fa-solid fa-play text-xs ml-0.5';
+                eqVisualizer.className = 'flex items-end gap-0.5 h-4 opacity-40';
+                eqVisualizer.children[0].className = 'w-0.5 bg-cyan-400 rounded-full h-1';
+                eqVisualizer.children[1].className = 'w-0.5 bg-cyan-400 rounded-full h-2';
+                eqVisualizer.children[2].className = 'w-0.5 bg-cyan-400 rounded-full h-1';
+            }
+        }
+
+        function adjustVolume(val) {
+            audio.volume = val;
+            if (val == 0) {
+                volumeIcon.className = 'fa-solid fa-volume-xmark text-[10px] text-red-400';
+            } else if (val < 0.5) {
+                volumeIcon.className = 'fa-solid fa-volume-low text-[10px]';
+            } else {
+                volumeIcon.className = 'fa-solid fa-volume-high text-[10px]';
+            }
+        }
+
+        function toggleMute() {
+            if (audio.volume > 0) {
+                audio.dataset.prevVolume = audio.volume;
+                audio.volume = 0;
+                volumeSlider.value = 0;
+                volumeIcon.className = 'fa-solid fa-volume-xmark text-[10px] text-red-400';
+            } else {
+                const restoreVol = audio.dataset.prevVolume || 0.5;
+                audio.volume = restoreVol;
+                volumeSlider.value = restoreVol;
+                adjustVolume(restoreVol);
+            }
+        }
+
+        function toggleLangDropdown(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('langDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function selectLanguage(lang) {
+            currentLang = lang;
+            updateLanguage();
+            const dropdown = document.getElementById('langDropdown');
+            dropdown.classList.add('hidden');
+
+            // Update active checkmarks in dropdown
+            document.getElementById('checkEn').classList.toggle('hidden', lang !== 'en');
+            document.getElementById('checkZh').classList.toggle('hidden', lang !== 'zh');
+        }
+
+        // Close dropdown menu when clicking outside
+        window.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('langDropdown');
+            if (dropdown && !dropdown.classList.contains('hidden')) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        function updateLanguage() {
+            // Swap all elements with data-lang attributes
+            const langElements = document.querySelectorAll('[data-lang-en]');
+            langElements.forEach(el => {
+                const text = el.getAttribute(`data-lang-${currentLang}`);
+                if (text) {
+                    el.innerText = text;
+                }
+            });
+
+            // Toggle language-specific blocks (EN vs Chinese intro separation)
+            const enBlocks = document.querySelectorAll('.lang-en-only');
+            const zhBlocks = document.querySelectorAll('.lang-zh-only');
+
+            if (currentLang === 'en') {
+                enBlocks.forEach(el => el.classList.remove('hidden'));
+                zhBlocks.forEach(el => el.classList.add('hidden'));
+            } else {
+                enBlocks.forEach(el => el.classList.add('hidden'));
+                zhBlocks.forEach(el => el.classList.remove('hidden'));
+            }
+        }
+
+        // Mobile Navigation Drawer Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.getElementById('menuIcon');
+            menu.classList.toggle('hidden');
+            if (menu.classList.contains('hidden')) {
+                icon.className = 'fa-solid fa-bars text-xl';
+            } else {
+                icon.className = 'fa-solid fa-xmark text-xl';
+            }
+        }
+
+        // Email copy helper fallback
+        function copyEmail(e) {
+            e.preventDefault();
+            const email = "taiyun0614@gmail.com";
+            
+            // Copy to clipboard
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(email);
+            } else {
+                const textArea = document.createElement("textarea");
+                textArea.value = email;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            }
+
+            // Show Toast
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.innerText = currentLang === 'en' ? 'Email copied: taiyun0614@gmail.com' : '已複製 Email: taiyun0614@gmail.com';
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Animated Sci-Fi Canvas Background
+        window.onload = function() {
+            const canvas = document.getElementById('heroCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            // Particles Array
+            const particles = [];
+            const particleCount = Math.min(Math.floor(width / 20), 65);
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.6,
+                    vy: (Math.random() - 0.5) * 0.6,
+                    radius: Math.random() * 2 + 1,
+                    alpha: Math.random() * 0.5 + 0.2,
+                    color: Math.random() > 0.5 ? '#38bdf8' : '#818cf8'
+                });
+            }
+
+            function animateCanvas() {
+                ctx.clearRect(0, 0, width, height);
+
+                // Draw connecting lines
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < 120) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(56, 189, 248, ${0.15 * (1 - dist / 120)})`;
+                            ctx.lineWidth = 0.8;
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                // Draw particles
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    if (p.x < 0 || p.x > width) p.vx *= -1;
+                    if (p.y < 0 || p.y > height) p.vy *= -1;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = p.alpha;
+                    ctx.fill();
+                    ctx.globalAlpha = 1.0;
+                });
+
+                requestAnimationFrame(animateCanvas);
+            }
+
+            animateCanvas();
+        };
+    </script>
+</body>
+</html>
