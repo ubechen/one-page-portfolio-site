@@ -1221,6 +1221,35 @@
             }, observerOptions);
 
             document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+
+            // Navigation ScrollSpy Active State Highlighting
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('header nav a[href^="#"], #mobileMenu a[href^="#"]');
+
+            function highlightNavOnScroll() {
+                const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+
+                sections.forEach(current => {
+                    const sectionHeight = current.offsetHeight;
+                    const sectionTop = current.offsetTop - 130; // Offset for header height
+                    const sectionId = current.getAttribute('id');
+
+                    if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                        navLinks.forEach(link => {
+                            if (link.getAttribute('href') === '#' + sectionId) {
+                                link.classList.add('text-cyan-400', 'font-bold', 'bg-cyan-500/10');
+                                link.classList.remove('text-slate-300');
+                            } else {
+                                link.classList.remove('text-cyan-400', 'font-bold', 'bg-cyan-500/10');
+                                link.classList.add('text-slate-300');
+                            }
+                        });
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', highlightNavOnScroll);
+            highlightNavOnScroll(); // Initial check on load
         });
 
         // Theme Toggle Functionality
